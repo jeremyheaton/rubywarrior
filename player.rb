@@ -1,9 +1,11 @@
 class Player
-  MIN_HEALTH = 12
+  MIN_HEALTH = 15
 
   def play_turn(warrior)
     puts @health
-    if warrior.feel.enemy?
+    if warrior.feel.captive?
+      warrior.rescue!
+    elsif warrior.feel.enemy?
       warrior.attack!
     elsif warrior.health < MIN_HEALTH && unharmed?(warrior)
       warrior.rest!
