@@ -2,6 +2,10 @@ class Player
   @rescued = false
 
   def play_turn(warrior)
+    if @health.nil?
+      @health = 20
+    end
+
     if warrior.feel(:backward).captive?
       warrior.rescue!(:backward)
       @rescued = true
@@ -11,14 +15,14 @@ class Player
       warrior.rescue!
     elsif warrior.feel.enemy?
       warrior.attack!
+    elsif !warrior.look[1].captive? && can_shoot?(warrior) && !attacked?(warrior)
+      warrior.shoot!
     elsif heal?(warrior)
       if !attacked?(warrior)
         warrior.rest!
       else
         warrior.walk!(:backward)
       end
-    elsif warrior.look[1].enemy?
-      warrior.shoot!
     else
       warrior.walk!
     end
@@ -35,5 +39,14 @@ class Player
 
   def attacked?(warrior)
      @health > warrior.health
+  end
+
+  def can_shoot?(warrior)
+    index = warrior.look.index { |vision| vision.enemy? }
+    if index.nil?
+      false
+    else
+      true
+    end
   end
 end
