@@ -1,5 +1,4 @@
 class Player
-  MIN_HEALTH = 15
   @rescued = false
 
   def play_turn(warrior)
@@ -18,6 +17,8 @@ class Player
       else
         warrior.walk!(:backward)
       end
+    elsif warrior.look[1].enemy?
+      warrior.shoot!
     else
       warrior.walk!
     end
@@ -25,7 +26,7 @@ class Player
   end
 
   def heal?(warrior)
-    healing?(warrior) || warrior.health < 14
+    healing?(warrior) || warrior.health < 8
   end
 
   def healing?(warrior)
