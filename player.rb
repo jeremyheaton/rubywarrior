@@ -6,8 +6,8 @@ class Player
     if warrior.feel(:backward).captive?
       warrior.rescue!(:backward)
       @rescued = true
-    elsif !warrior.feel(:backward).wall? && !@rescued
-      warrior.walk!(:backward)
+    elsif warrior.feel.wall?
+      warrior.pivot!
     elsif warrior.feel.captive?
       warrior.rescue!
     elsif warrior.feel.enemy?
